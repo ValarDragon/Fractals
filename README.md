@@ -1,7 +1,7 @@
 # Koch_Snowflake
-This makes a Koch_Snowflake with every component being customizable, even the scaling factor.
+This makes a Koch Snowflake with every component being customizable, even the scaling factor.
 
-To alter all the parameters, you must unfortunately actually edit the main file. I will fix this later.
+To alter all the parameters, edit them in config.py.
 
 A quick description of the parameters:
 canvas_size = The size you want the actual image to be, its a square so its just one parameter.  
@@ -24,6 +24,6 @@ halfSidelets = Boolean (Experimental, only working well for scalingfactor = 1/3)
 Sidelets = Boolean, includes both 1 and 3. This is working just fine! Be warned it significantly increases processing required.  
 
 Note, if the scaling factor is not 1/3rd, the sidelets are of size `(line segment they were placed upon length)*scalingfactor`
-This produces slightly asymetrical results due to the order of writing if scaling factor is not 1/3rd. I'm working on fixing this. 
-  
+This produces slightly asymetrical results due to the order of writing if scaling factor is not 1/3rd. I'm working on fixing this.
+
 thirdtriangleside = Boolean. This is only applicable when Sidelets and reverse are enabled. The parameter specifies whether you want three triangles in each inner triangle or not. Generally speaking, you get more circular looking patterns with it disabled, and more triangle looking patterns when its enabled. See the two sample image 11's

@@ -27,15 +27,33 @@ def main(argv):
     thirdtriangleside = config.thirdtriangleside
 
     try:
-        opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","dr=","dg=","db=", "bgcolor=",])
+        opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
+        "reverse=","halfsidelets=","sidelets=","threetriangle="])
     except getopt.GetoptError:
         print('koch_snowflake.py -o <output image name> -c <canvas size in pixels>')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-o", "--output"):
             imgname = arg
-        if opt in ("-c", "--canvas"):
+        elif opt in ("-c", "--canvas"):
             canvas_size = int(arg)
+        elif opt in ("--scalingfactor"):
+            scalingfactor = float(arg)
+        elif opt in ("--length"):
+            sidelength = int(arg)
+        elif opt in ("--depth"):
+            maxdepth = int(arg)
+        elif opt in ("--bgcolor"):
+            bgcolor = arg
+        elif opt in ("--reverse"):
+            reverse = bool(arg)
+        elif opt in ("--halfsidelets"):
+            reverse = bool(arg)
+        elif opt in ("--sidelets"):
+            reverse = bool(arg)
+        elif opt in ("--threetriangle"):
+            reverse = bool(arg)
+
 
     if("/" not in imgname):
         imgname = "output/"+imgname
