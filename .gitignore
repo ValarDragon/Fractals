@@ -1,0 +1,10 @@
+**.pyc
+**.exp
+*.sqlite
+**.pyo
+**.pyd
+**.log
+output/
+archives/
+__pycache__/
+**/__pycache__

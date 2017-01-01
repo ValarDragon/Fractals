@@ -20,7 +20,7 @@ def main(argv):
     bgcolor = "black"
     reverse = True
     halfsidelets = False
-    sidelets = True
+    sidelets = False
 
     try:
         opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","dr=","dg=","db=", "bgcolor=",])
@@ -33,6 +33,8 @@ def main(argv):
         if opt in ("-c", "--canvas"):
             canvas_size = int(arg)
 
+    if("/" not in imgname):
+        imgname = "output/"+imgname
     img = Image.new("RGBA",(canvas_size,canvas_size),bgcolor)
     c = canvas_size/2 #center
     l = sidelength
