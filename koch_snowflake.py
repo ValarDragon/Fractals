@@ -9,18 +9,19 @@ def main(argv):
     imgname = "snowflake_" + strftime("%m-%d_%H:%M", gmtime())+".jpg"
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
-    global reverse,sidelets,halfsidelets
+    global reverse,sidelets,halfsidelets,thirdtriangleside
     canvas_size = 1500
     scalingfactor = 1/3
     sidelength = 900
-    maxdepth = 6
+    maxdepth = 5
     fillcolor = ["#33DDDD","#55BBCC","#66AACC","#7788BB","#8977AC","#9F66BC","#AA66AA","#CC99CC","#CCDDDD"]
     reversefillcolor = ["#DDDD33","#CCBB55","#CCAA66","#BB8866","#AC7778","#BC668F","#AA66AA","#CC99CC","#CCDDDD"]
     outlinecolor = "#00FFFF"
     bgcolor = "black"
     reverse = True
     halfsidelets = False
-    sidelets = False
+    sidelets = True
+    thirdtriangleside = True
 
     try:
         opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","dr=","dg=","db=", "bgcolor=",])
@@ -61,7 +62,7 @@ def recurse(sides,length,curdepth,draw):
             drawthisiter = True
             if(i+j == 1 and curdepth > 1 and not sidelets):
                 continue
-            elif(i+j == 1 and curdepth > 1 and sidelets):
+            elif(i+j == 1 and curdepth > 1 and sidelets and not thirdtriangleside):
                 drawthisiter = False
             x2 = sides[j][0]
             y2 = sides[j][1]
@@ -110,7 +111,6 @@ def recurse(sides,length,curdepth,draw):
             if(halfsidelets or sidelets):
                 newsidelist.append(newsides[:-1])
             #print(str(newsides))
-            #draw.polygon(newsides, "#"+str(i*80).zfill(2) + str(j*40) + str(j*40),"RED")
             if(drawthisiter):
                 draw.polygon(newsides, fillcolor[curdepth])
             #print("NEW RECURSE of depth " + str(curdepth+1) + "--------------------------------------------------------------------------")

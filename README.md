@@ -25,3 +25,5 @@ Sidelets = Boolean, includes both 1 and 3. This is working just fine! Be warned 
 
 Note, if the scaling factor is not 1/3rd, the sidelets are of size `(line segment they were placed upon length)*scalingfactor`
 This produces slightly asymetrical results due to the order of writing if scaling factor is not 1/3rd. I'm working on fixing this. 
+  
+thirdtriangleside = Boolean. This is only applicable when Sidelets and reverse are enabled. The parameter specifies whether you want three triangles in each inner triangle or not. Generally speaking, you get more circular looking patterns with it disabled, and more triangle looking patterns when its enabled. See the two sample image 11's
