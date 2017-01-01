@@ -20,7 +20,7 @@ __/\__/    \__/\__
   1     2      3  
 ```
 By sidelets, I am reffering to 1 and 3 in the above diagram, the parts that pop up on the remaining sides  
-halfSidelets = Boolean (Experimental, not really working atm) Only includes sidelet 1 at each step.  
+halfSidelets = Boolean (Experimental, only working well for scalingfactor = 1/3) Only includes sidelet 1 at each step.  
 Sidelets = Boolean, includes both 1 and 3. This is working just fine! Be warned it significantly increases processing required.  
 
 Note, if the scaling factor is not 1/3rd, the sidelets are of size `(line segment they were placed upon length)*scalingfactor`
