@@ -22,3 +22,6 @@ __/\__/    \__/\__
 By sidelets, I am reffering to 1 and 3 in the above diagram, the parts that pop up on the remaining sides  
 halfSidelets = Boolean (Experimental, not really working atm) Only includes sidelet 1 at each step.  
 Sidelets = Boolean, includes both 1 and 3. This is working just fine! Be warned it significantly increases processing required.  
+
+Note, if the scaling factor is not 1/3rd, the sidelets are of size `(line segment they were placed upon length)*scalingfactor`
+This produces slightly asymetrical results due to the order of writing if scaling factor is not 1/3rd. I'm working on fixing this. 
