@@ -1,0 +1,12 @@
+canvas_size = 1500
+scalingfactor = 1/3
+sidelength = 900
+maxdepth = 6
+fillcolor = ["#33DDDD","#55BBCC","#66AACC","#7788BB","#8977AC","#9F66BC","#AA66AA","#CC99CC","#CCDDDD"]
+reversefillcolor = ["#DDDD33","#CCBB55","#CCAA66","#BB8866","#AC7778","#BC668F","#AA66AA","#CC99CC","#CCDDDD"]
+outlinecolor = "#00FFFF"
+bgcolor = "black"
+reverse = True
+halfsidelets = False
+sidelets = True
+thirdtriangleside = False

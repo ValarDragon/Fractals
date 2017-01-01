@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+
 from PIL import Image, ImageFilter, ImageDraw
 import numpy
 import sys, getopt
 from time import gmtime, strftime
 import math
+import config
 
 def main(argv):
 
@@ -10,18 +13,18 @@ def main(argv):
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
     global reverse,sidelets,halfsidelets,thirdtriangleside
-    canvas_size = 1500
-    scalingfactor = 1/3
-    sidelength = 900
-    maxdepth = 6
-    fillcolor = ["#33DDDD","#55BBCC","#66AACC","#7788BB","#8977AC","#9F66BC","#AA66AA","#CC99CC","#CCDDDD"]
-    reversefillcolor = ["#DDDD33","#CCBB55","#CCAA66","#BB8866","#AC7778","#BC668F","#AA66AA","#CC99CC","#CCDDDD"]
-    outlinecolor = "#00FFFF"
-    bgcolor = "black"
-    reverse = True
-    halfsidelets = False
-    sidelets = True
-    thirdtriangleside = False
+    canvas_size = config.canvas_size
+    scalingfactor = config.scalingfactor
+    sidelength = config.sidelength
+    maxdepth = config.maxdepth
+    fillcolor = config.fillcolor
+    reversefillcolor = config.reversefillcolor
+    outlinecolor = config.outlinecolor
+    bgcolor = config.bgcolor
+    reverse = config.reverse
+    halfsidelets = config.halfsidelets
+    sidelets = config.sidelets
+    thirdtriangleside = config.thirdtriangleside
 
     try:
         opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","dr=","dg=","db=", "bgcolor=",])
