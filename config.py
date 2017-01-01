@@ -9,4 +9,7 @@ bgcolor = "black"
 reverse = True
 halfsidelets = False
 sidelets = True
-thirdtriangleside = False
+#Works well at depth = 3, not so well at higher depths. Significantly increases processing time.
+#It makes sidelets spawn with no increase in their depth. See sample output 13 for what it looks like
+sideletsNoDepthIncrease = False
+thirdtriangleside = True

@@ -12,7 +12,7 @@ def main(argv):
     imgname = "snowflake_" + strftime("%m-%d_%H:%M", gmtime())+".jpg"
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
-    global reverse,sidelets,halfsidelets,thirdtriangleside
+    global reverse,sidelets,halfsidelets,thirdtriangleside,sideletsNoDepthIncrease
     canvas_size = config.canvas_size
     scalingfactor = config.scalingfactor
     sidelength = config.sidelength
@@ -25,10 +25,11 @@ def main(argv):
     halfsidelets = config.halfsidelets
     sidelets = config.sidelets
     thirdtriangleside = config.thirdtriangleside
+    sideletsNoDepthIncrease = config.sideletsNoDepthIncrease
 
     try:
         opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
-        "reverse=","halfsidelets=","sidelets=","threetriangle="])
+        "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease"])
     except getopt.GetoptError:
         print('koch_snowflake.py -o <output image name> -c <canvas size in pixels>')
         sys.exit(2)
@@ -48,11 +49,13 @@ def main(argv):
         elif opt in ("--reverse"):
             reverse = bool(arg)
         elif opt in ("--halfsidelets"):
-            reverse = bool(arg)
+            halfsidelets = bool(arg)
         elif opt in ("--sidelets"):
-            reverse = bool(arg)
+            sidelets = bool(arg)
         elif opt in ("--threetriangle"):
-            reverse = bool(arg)
+            thirdtriangleside = bool(arg)
+        elif opt in ("--sideletsNoDepthIncrease"):
+            sideletsNoDepthIncrease = bool(arg)
 
     if(maxdepth > len(fillcolor)):
         for i in range(maxdepth - len(fillcolor)+1):
@@ -199,7 +202,10 @@ def recurse(sides,length,curdepth,draw):
 
                 #print("points " + str(points))
                 #print("-------------------------------------")
-                recurse(points,math.sqrt(mindist)*scalingfactor,curdepth+1,draw)
+                if(sideletsNoDepthIncrease):
+                    recurse(points,math.sqrt(mindist)*scalingfactor,curdepth,draw)
+                else:
+                    recurse(points,math.sqrt(mindist)*scalingfactor,curdepth+1,draw)
 
 
 
