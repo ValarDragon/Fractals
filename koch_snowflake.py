@@ -54,7 +54,12 @@ def main(argv):
         elif opt in ("--threetriangle"):
             reverse = bool(arg)
 
-
+    if(maxdepth > len(fillcolor)):
+        for i in range(maxdepth - len(fillcolor)+1):
+            fillcolor.append(fillcolor[len(fillcolor)-1])
+    if(maxdepth > len(reversefillcolor)):
+        for i in range(maxdepth - len(reversefillcolor)+1):
+            reversefillcolor.append(reversefillcolor[len(reversefillcolor)-1])
     if("/" not in imgname):
         imgname = "output/"+imgname
     img = Image.new("RGBA",(canvas_size,canvas_size),bgcolor)
@@ -71,6 +76,8 @@ def recurse(sides,length,curdepth,draw):
     if(sidelets or halfsidelets):
         newsidelist = []
     if(curdepth > maxdepth):
+        return
+    if(length < .3):
         return
     #this works because its an equilateral triangle
     xcenter = (sides[0][0]+sides[1][0]+sides[2][0])/3
