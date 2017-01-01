@@ -13,7 +13,7 @@ def main(argv):
     canvas_size = 1500
     scalingfactor = 1/3
     sidelength = 900
-    maxdepth = 5
+    maxdepth = 6
     fillcolor = ["#33DDDD","#55BBCC","#66AACC","#7788BB","#8977AC","#9F66BC","#AA66AA","#CC99CC","#CCDDDD"]
     reversefillcolor = ["#DDDD33","#CCBB55","#CCAA66","#BB8866","#AC7778","#BC668F","#AA66AA","#CC99CC","#CCDDDD"]
     outlinecolor = "#00FFFF"
@@ -21,7 +21,7 @@ def main(argv):
     reverse = True
     halfsidelets = False
     sidelets = True
-    thirdtriangleside = True
+    thirdtriangleside = False
 
     try:
         opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","dr=","dg=","db=", "bgcolor=",])
@@ -51,8 +51,10 @@ def recurse(sides,length,curdepth,draw):
         newsidelist = []
     if(curdepth > maxdepth):
         return
+    #this works because its an equilateral triangle
     xcenter = (sides[0][0]+sides[1][0]+sides[2][0])/3
     ycenter = (sides[0][1]+sides[1][1]+sides[2][1])/3
+    #iterate through each pair of sides
     for i in range(3):
         #print("SIDE 1 : " + str(sides[i]))
         x1 = sides[i][0]
@@ -60,6 +62,7 @@ def recurse(sides,length,curdepth,draw):
         for j in range(i+1,3):
             #print("SIDE 2 : " + str(sides[j]))
             drawthisiter = True
+            #ignore this side as it would be going into triangle, unless it needs to be accounted for for sidelets.
             if(i+j == 1 and curdepth > 1 and not sidelets):
                 continue
             elif(i+j == 1 and curdepth > 1 and sidelets and not thirdtriangleside):
