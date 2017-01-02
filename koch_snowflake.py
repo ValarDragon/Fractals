@@ -33,16 +33,23 @@ def main(argv):
         global trianglelist
         trianglelist = []
     try:
-        opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
+        opts, args = getopt.getopt(argv,"ho:c:",["help","output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
         "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease="])
     except getopt.GetoptError:
-        print('koch_snowflake.py -o <output image name> -c <canvas size in pixels>')
+        print('koch_snowflake.py -o <output image name> -c <canvas size>')
+        print(' --[scalingfactor, length, depth, bgcolor, reverse,'+
+            ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease]')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-o", "--output"):
             imgname = arg
         elif opt in ("-c", "--canvas"):
             canvas_size = int(arg)
+        elif opt in ("-h", "--help"):
+            print('koch_snowflake.py -o <output image name> -c <canvas size>')
+            print(' --[scalingfactor, length, depth, bgcolor, reverse,'+
+                ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease]')
+            return
         elif opt in ("--scalingfactor"):
             scalingfactor = float(arg)
         elif opt in ("--length"):
@@ -90,7 +97,7 @@ def main(argv):
                     #no reason to iterate over it again.
                     del trianglelist[j]
             if(saveEachIteration):
-                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+                img.save("output/snowflake/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
     elif(drawTrianglesAtEnd and (not reverse and (sidelets or halfsidelets))):
         print(str(len(trianglelist)+1) + " triangles are in this fractal!!!")
         print("Currently drawing these triangles")
@@ -106,10 +113,10 @@ def main(argv):
                     del trianglelist[j]
 
             if(saveEachIteration):
-                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+                img.save("output/snowflake/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
         draw.polygon(triangle, fillcolor[0],outlinecolor)
     if("/" not in imgname):
-        imgname = "output/"+imgname
+        imgname = "output/snowflake/"+imgname
     img.save(imgname,"JPEG")
 
 def recurse(sides,length,curdepth,draw):
