@@ -10,9 +10,9 @@ def main(argv):
 
     global sides,fillcolor,iterations,scalingfactor,numonline,innertheta,canvas_size,innerlengthconstant
     global rotSides
-    canvas_size = 3000
-    sides = 7
-    sidelength = 600
+    canvas_size = 2500
+    sides = 5
+    sidelength = 400
     iterations = 5
     scalingfactor = 1/3
     numonline = 1
@@ -58,7 +58,7 @@ def main(argv):
         points.append( (c + lengthfromcenter*math.cos(theta), c - lengthfromcenter*math.sin(theta)) )
         theta += innertheta
     draw.polygon(points, fillcolor[0])
-    print("center: " + str(c))
+    #print("center: " + str(c))
     recurse(points,theta,sidelength*scalingfactor,(c,c),1,m2cdist,draw)
 
     if("/" not in imgname):
@@ -73,7 +73,7 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
         p1 = points[i]
         p2 = points[(i+1)%sides]
         midpoint = ((p1[0]+p2[0])/2,(p1[1]+p2[1])/2)
-        print("midpoint: " + str(midpoint))
+        #print("midpoint: " + str(midpoint))
         #center to midpoint is the slope that is perpendicular to the side
         #slope = (p2[1]-p1[1])/(p2[0]-p1[0])
         #draw.line((center,midpoint),"red")
@@ -85,15 +85,15 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
 
         lengthfromcenter = newlength / innerlengthconstant
         newpoints = []
-        #if(rotSides):
-        #    if(sides % 2 == 0):
-        #        theta += math.pi/2 - (innertheta/2)
-            #else:
-            #    theta -= math.pi/2
-        print(points)
-        print(180*theta/math.pi)
-        for i in range(sides):
-            newpoints.append( (newcenter[0] + lengthfromcenter*math.cos(theta), newcenter[1] - lengthfromcenter*math.sin(theta)) )
+        if(rotSides):
+            if(sides % 2 == 0):
+                theta += innertheta/2
+            else:
+                theta += math.pi
+        #print(points)
+        #print(180*theta/math.pi)
+        for j in range(sides):
+            newpoints.append( (newcenter[0] + lengthfromcenter*math.cos(theta), newcenter[1] - lengthfromcenter*math.sin(theta)))
             theta += innertheta
         draw.polygon(newpoints, fillcolor[curdepth])
         recurse(newpoints,theta,newlength*scalingfactor,newcenter,curdepth+1,m2cdist*scalingfactor,draw)
