@@ -12,7 +12,8 @@ def main(argv):
     imgname = "snowflake_" + strftime("%m-%d_%H:%M", gmtime())+".jpg"
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
-    global reverse,sidelets,halfsidelets,thirdtriangleside,sideletsNoDepthIncrease
+    global reverse,sidelets,halfsidelets,thirdtriangleside,sideletsNoDepthIncrease,drawTrianglesAtEnd
+    global saveEachIteration
     canvas_size = config.canvas_size
     scalingfactor = config.scalingfactor
     sidelength = config.sidelength
@@ -26,10 +27,14 @@ def main(argv):
     sidelets = config.sidelets
     thirdtriangleside = config.thirdtriangleside
     sideletsNoDepthIncrease = config.sideletsNoDepthIncrease
-
+    drawTrianglesAtEnd = config.drawTrianglesAtEnd
+    saveEachIteration = config.saveEachIteration
+    if(drawTrianglesAtEnd):
+        global trianglelist
+        trianglelist = []
     try:
         opts, args = getopt.getopt(argv,"o:c:",["output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
-        "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease"])
+        "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease="])
     except getopt.GetoptError:
         print('koch_snowflake.py -o <output image name> -c <canvas size in pixels>')
         sys.exit(2)
@@ -63,8 +68,7 @@ def main(argv):
     if(maxdepth > len(reversefillcolor)):
         for i in range(maxdepth - len(reversefillcolor)+1):
             reversefillcolor.append(reversefillcolor[len(reversefillcolor)-1])
-    if("/" not in imgname):
-        imgname = "output/"+imgname
+
     img = Image.new("RGBA",(canvas_size,canvas_size),bgcolor)
     c = canvas_size/2 #center
     l = sidelength
@@ -73,6 +77,39 @@ def main(argv):
     #print(triangle)
     draw.polygon(triangle, fillcolor[0],outlinecolor)
     recurse(triangle, l*scalingfactor,1,draw)
+    if(drawTrianglesAtEnd and not (not reverse and (sidelets or halfsidelets))):
+        print(str(len(trianglelist)+1) + " triangles are in this fractal!!!")
+        print("Currently drawing these triangles")
+        for i in range(1, maxdepth+1):
+            #Fancy way of iterating over a list that allows you to delete elements from it while iterating
+            #https://stackoverflow.com/questions/6022764/python-removing-list-element-while-iterating-over-list
+            for j in range(len(trianglelist) - 1, -1, -1):
+                element = trianglelist[j]
+                if(element[0]==i):
+                    draw.polygon(element[2],element[1])
+                    #no reason to iterate over it again.
+                    del trianglelist[j]
+            if(saveEachIteration):
+                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+    elif(drawTrianglesAtEnd and (not reverse and (sidelets or halfsidelets))):
+        print(str(len(trianglelist)+1) + " triangles are in this fractal!!!")
+        print("Currently drawing these triangles")
+        for i in range(1, maxdepth+1):
+            k = maxdepth+1 - i
+            #Fancy way of iterating over a list that allows you to delete elements from it while iterating
+            #https://stackoverflow.com/questions/6022764/python-removing-list-element-while-iterating-over-list
+            for j in range(len(trianglelist) - 1, -1, -1):
+                element = trianglelist[j]
+                if(element[0]==k):
+                    draw.polygon(element[2],element[1])
+                    #no reason to iterate over it again.
+                    del trianglelist[j]
+
+            if(saveEachIteration):
+                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+        draw.polygon(triangle, fillcolor[0],outlinecolor)
+    if("/" not in imgname):
+        imgname = "output/"+imgname
     img.save(imgname,"JPEG")
 
 def recurse(sides,length,curdepth,draw):
@@ -146,7 +183,10 @@ def recurse(sides,length,curdepth,draw):
                 newsidelist.append(newsides[:-1])
             #print(str(newsides))
             if(drawthisiter):
-                draw.polygon(newsides, fillcolor[curdepth])
+                if(not drawTrianglesAtEnd):
+                    draw.polygon(newsides, fillcolor[curdepth])
+                else:
+                    trianglelist.append((curdepth,fillcolor[curdepth],newsides))
             #print("NEW RECURSE of depth " + str(curdepth+1) + "--------------------------------------------------------------------------")
             recurse(newsides,length*scalingfactor,curdepth+1,draw)
             if(reverse):
@@ -156,7 +196,11 @@ def recurse(sides,length,curdepth,draw):
                 #print(str(newsides))
                 #draw.polygon(newsides, "#"+str(i*80).zfill(2) + str(j*40) + str(j*40),"RED")
                 if(drawthisiter):
-                    draw.polygon(newsides, reversefillcolor[curdepth])
+                    if(not drawTrianglesAtEnd):
+                        draw.polygon(newsides, reversefillcolor[curdepth])
+                    else:
+                        trianglelist.append((curdepth,reversefillcolor[curdepth],newsides))
+
                 #print("NEW RECURSE of depth " + str(curdepth+1) + "--------------------------------------------------------------------------")
                 recurse(newsides,length*scalingfactor,curdepth+1,draw)
     if(halfsidelets or sidelets):
