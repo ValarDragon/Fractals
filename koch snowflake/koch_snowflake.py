@@ -9,7 +9,7 @@ import config
 
 def main(argv):
 
-    imgname = "snowflake_" + strftime("%m-%d_%H:%M", gmtime())+".jpg"
+    imgname = "output/snowflake_" + strftime("%m-%d_%H:%M", gmtime())
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
     global reverse,sidelets,halfsidelets,thirdtriangleside,sideletsNoDepthIncrease,drawTrianglesAtEnd
@@ -29,6 +29,7 @@ def main(argv):
     sideletsNoDepthIncrease = config.sideletsNoDepthIncrease
     drawTrianglesAtEnd = config.drawTrianglesAtEnd
     saveEachIteration = config.saveEachIteration
+    genconfig = config.genconfig
     if(drawTrianglesAtEnd):
         global trianglelist
         trianglelist = []
@@ -68,6 +69,9 @@ def main(argv):
             thirdtriangleside = bool(arg)
         elif opt in ("--sideletsNoDepthIncrease"):
             sideletsNoDepthIncrease = bool(arg)
+
+    if("/" not in imgname):
+        imgname = "output/"+imgname
 
     if(maxdepth > len(fillcolor)):
         for i in range(maxdepth - len(fillcolor)+1):
@@ -113,11 +117,11 @@ def main(argv):
                     del trianglelist[j]
 
             if(saveEachIteration):
-                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+                img.save(imgname+"_iter_"+ str(i)+".jpg","JPEG")
         draw.polygon(triangle, fillcolor[0],outlinecolor)
-    if("/" not in imgname):
-        imgname = "output/"+imgname
-    img.save(imgname,"JPEG")
+    img.save(imgname+".jpg","JPEG")
+    if(genconfig):
+        generateconfig(imgname+".txt")
 
 def recurse(sides,length,curdepth,draw):
     if(sidelets or halfsidelets):
@@ -258,7 +262,24 @@ def recurse(sides,length,curdepth,draw):
                 else:
                     recurse(points,math.sqrt(mindist)*scalingfactor,curdepth+1,draw)
 
-
+def generateconfig(filename):
+    configcopy = open(filename, "w+")
+    configcopy.write("canvas_size = " + str(config.canvas_size)+"\n")
+    configcopy.write("scalingfactor = " + str(scalingfactor)+"\n")
+    configcopy.write("sidelength = " + str(sidelength)+"\n")
+    configcopy.write("maxdepth = " + str(maxdepth)+"\n")
+    configcopy.write("fillcolor = " + str(fillcolor)+"\n")
+    configcopy.write("reversefillcolor = " + str(reversefillcolor)+"\n")
+    configcopy.write("outlinecolor = " + str(outlinecolor)+"\n")
+    configcopy.write("bgcolor = " + str(bgcolor)+"\n")
+    configcopy.write("reverse = " + str(reverse)+"\n")
+    configcopy.write("halfsidelets = " + str(halfsidelets)+"\n")
+    configcopy.write("sidelets = " + str(sidelets)+"\n")
+    configcopy.write("thirdtriangleside = " + str(thirdtriangleside)+"\n")
+    configcopy.write("sideletsNoDepthIncrease = " + str(sideletsNoDepthIncrease)+"\n")
+    configcopy.write("drawTrianglesAtEnd = " + str(drawTrianglesAtEnd)+"\n")
+    configcopy.write("saveEachIteration = " + str(saveEachIteration)+"\n")
+    configcopy.close()
 
 
 if __name__ == "__main__":
