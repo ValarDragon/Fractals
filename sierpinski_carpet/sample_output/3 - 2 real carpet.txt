@@ -1,0 +1,13 @@
+canvas_size = 1200
+number_of_sides = 4
+rotSides = True
+scalingfactor = 0.3333333333333333
+sidelength = 400
+iterations = 5
+midpoint2centerDistance = 200
+fillcolor = ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#9F66BC', '#AA66AA', '#CC99CC', '#CCDDDD']
+bgcolor = "purple"
+genconfig = True
+generateCornerPolygons = True
+rotateCornerPolygons = True
+cornerPolygonElongSidelength = 1
