@@ -58,10 +58,7 @@ def main(argv):
 
     innerlengthconstant = math.sqrt(2-2*math.cos(innertheta))
     lengthfromcenter = sidelength / innerlengthconstant
-    points = []
-    for i in range(sides):
-        points.append( (c + lengthfromcenter*math.cos(theta), c - lengthfromcenter*math.sin(theta)) )
-        theta += innertheta
+    points = polygonCorners((c,c),lengthfromcenter,theta)
     draw.polygon(points, fillcolor[0])
     #print("center: " + str(c))
     recurse(points,theta,sidelength*scalingfactor,(c,c),1,m2cdist,draw)
@@ -91,17 +88,15 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
         newcenter = (midpoint[0] + m2cdist*math.cos(theta), midpoint[1] + m2cdist*math.sin(theta))
 
         lengthfromcenter = newlength / innerlengthconstant
-        newpoints = []
+
         if(rotSides):
             if(sides % 2 == 0):
                 theta += innertheta/2
             else:
                 theta += math.pi
-        #print(points)
-        #print(180*theta/math.pi)
-        for j in range(sides):
-            newpoints.append( (newcenter[0] + lengthfromcenter*math.cos(theta), newcenter[1] - lengthfromcenter*math.sin(theta)))
-            theta += innertheta
+
+        newpoints = polygonCorners(newcenter,lengthfromcenter,theta)
+
         draw.polygon(newpoints, fillcolor[curdepth])
         recurse(newpoints,theta,newlength*scalingfactor,newcenter,curdepth+1,m2cdist*scalingfactor,draw)
 
@@ -127,19 +122,23 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
                 newcenter = (p1[0] + m2cdist*cosSign, p1[1] + m2cdist*sinSign)
 
             lengthfromcenter = newlength / innerlengthconstant
-            newpoints = []
+
             if(rotSides and not rotateCornerPolygons):
                 if(sides % 2 == 0):
                     theta += innertheta/2
                 else:
                     theta += math.pi
-            #print(points)
-            #print(180*theta/math.pi)
-            for j in range(sides):
-                newpoints.append( (newcenter[0] + lengthfromcenter*math.cos(theta), newcenter[1] - lengthfromcenter*math.sin(theta)))
-                theta += innertheta
+
+            newpoints = polygonCorners(newcenter,lengthfromcenter,theta)
             draw.polygon(newpoints, fillcolor[curdepth])
             recurse(newpoints,theta,newlength*scalingfactor,newcenter,curdepth+1,m2cdist*scalingfactor,draw)
+
+def polygonCorners(center, lengthfromcenter, theta0):
+    corners = []
+    for j in range(sides):
+        corners.append( (center[0] + lengthfromcenter*math.cos(theta0), center[1] - lengthfromcenter*math.sin(theta0)))
+        theta0 += innertheta
+    return corners
 
 def generateconfig(filename,m2cdist,sidelength):
     configcopy = open(filename, "w+")
