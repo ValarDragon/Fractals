@@ -42,10 +42,11 @@ sidelets = True
 #It makes sidelets spawn with no increase in their depth. See sample output 13 for what it looks like
 sideletsNoDepthIncrease = False
 
-#thirdtriangleside = True or False. This only matters when Sidelets and reverse are both enabled.
+# thirdtriangleside = True or False. This only matters when Sidelets and reverse are both enabled.
 # The parameter specifies whether you want three triangles in each inner triangle or not.
 # Generally speaking, you get more circular looking patterns with it disabled,
-# and more triangle looking patterns when its enabled. See the two sample image 11's
+# and more triangle looking patterns when its enabled. See the two sample image 11's.
+# NOTE If you want the circular pattern, drawTrianglesAtEnd must be False
 thirdtriangleside = True
 
 #This saves all triangle writing until the end, and draws it tier by tier instead of my recursive method.

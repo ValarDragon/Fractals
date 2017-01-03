@@ -30,6 +30,7 @@ def main(argv):
     drawTrianglesAtEnd = config.drawTrianglesAtEnd
     saveEachIteration = config.saveEachIteration
     genconfig = config.genconfig
+
     if(drawTrianglesAtEnd):
         global trianglelist
         trianglelist = []
@@ -101,7 +102,7 @@ def main(argv):
                     #no reason to iterate over it again.
                     del trianglelist[j]
             if(saveEachIteration):
-                img.save("output/snowflake/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
     elif(drawTrianglesAtEnd and (not reverse and (sidelets or halfsidelets))):
         print(str(len(trianglelist)+1) + " triangles are in this fractal!!!")
         print("Currently drawing these triangles")
@@ -135,25 +136,23 @@ def recurse(sides,length,curdepth,draw):
     ycenter = (sides[0][1]+sides[1][1]+sides[2][1])/3
     #iterate through each pair of sides
     for i in range(3):
-        #print("SIDE 1 : " + str(sides[i]))
-        x1 = sides[i][0]
-        y1 = sides[i][1]
+        p1 = sides[i]
         for j in range(i+1,3):
-            #print("SIDE 2 : " + str(sides[j]))
             drawthisiter = True
-            #ignore this side as it would be going into triangle, unless it needs to be accounted for for sidelets.
+            #ignore this side as it would be going into triangle, unless it needs to be accounted for sidelets.
             if(i+j == 1 and curdepth > 1 and not sidelets):
                 continue
             elif(i+j == 1 and curdepth > 1 and sidelets and not thirdtriangleside):
                 drawthisiter = False
-            x2 = sides[j][0]
-            y2 = sides[j][1]
-            #midpoints
-            xmid = (x1 + x2)/2
-            ymid = (y1 + y2)/2
+            p2 = sides[j]
+
+            #midpoint
+            midpoint = ((p1[0] + p2[0])/2,(p1[0] + p2[1])/2)
+            xmid = (p1[0] + p2[0])/2
+            ymid = (p1[1] + p2[1])/2
             #print("midpoint " + str(xmid) + " , " + str(ymid))
-            #slope
-            m = (y2-y1) / (x2-x1)
+            #slope, rise over run
+            m = (p2[1]-p1[1]) / (p2[0]-p1[0])
             # total side length / 2 * (length on line per unit x), since its per unit x, dx will be the total
             #change in x from midpoint. /2 is b/c midpoint
             dx = length / (2*math.sqrt(m*m + 1))
@@ -167,10 +166,7 @@ def recurse(sides,length,curdepth,draw):
             if(m != 0):
                 dx = length * math.sqrt(3)/(2*math.sqrt(1 + (1/(m*m))))
                 dy = dx/m
-                #print("xcentre " + str(xcenter))
-                #print("ycentre " + str(ycenter))
-                #print("dx is " + str(dx))
-                #print("dy is " + str(dy))
+
                 if(xmid < xcenter and dx > 0):
                     dx *= -1
                 elif(xmid > xcenter and dx < 0):
@@ -187,9 +183,8 @@ def recurse(sides,length,curdepth,draw):
                 dy = length*math.sqrt(3)/2
                 if(ymid < ycenter and dy > 0):
                     dy *= -1
-            newx3 = xmid + dx
-            newy3 = ymid + dy
-            newsides = [(newx1,newy1),(newx2,newy2),(newx3,newy3)]
+            p3 = (xmid+dx,ymid+dy)
+            newsides = [(newx1,newy1),(newx2,newy2),p3]
             if(halfsidelets or sidelets):
                 newsidelist.append(newsides[:-1])
             #print(str(newsides))
@@ -201,9 +196,8 @@ def recurse(sides,length,curdepth,draw):
             #print("NEW RECURSE of depth " + str(curdepth+1) + "--------------------------------------------------------------------------")
             recurse(newsides,length*scalingfactor,curdepth+1,draw)
             if(reverse):
-                newx3 = xmid - dx
-                newy3 = ymid - dy
-                newsides = [(newx1,newy1),(newx2,newy2),(newx3,newy3)]
+                p3 = (xmid-dx,ymid-dy)
+                newsides = [(newx1,newy1),(newx2,newy2),p3]
                 #print(str(newsides))
                 #draw.polygon(newsides, "#"+str(i*80).zfill(2) + str(j*40) + str(j*40),"RED")
                 if(drawthisiter):
