@@ -10,7 +10,7 @@ import config
 def main(argv):
 
     global sides,fillcolor,iterations,scalingfactor,numonline,innertheta,canvas_size,innerlengthconstant
-    global rotSides,bgcolor,genconfig
+    global rotSides,bgcolor,genconfig,generateCornerPolygons
     canvas_size = config.canvas_size
     sides = config.number_of_sides
     sidelength = config.sidelength
@@ -18,7 +18,7 @@ def main(argv):
     scalingfactor = config.scalingfactor
     numonline = 1
     rotSides = config.rotSides
-
+    generateCornerPolygons = config.generateCornerPolygons
     #Not global, intentional.
     m2cdist = config.midpoint2centerDistance
 
@@ -103,6 +103,27 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
         draw.polygon(newpoints, fillcolor[curdepth])
         recurse(newpoints,theta,newlength*scalingfactor,newcenter,curdepth+1,m2cdist*scalingfactor,draw)
 
+        if(generateCornerPolygons == True):
+            theta = math.atan2(p1[1]-center[1],p1[0]-center[0])
+            if(theta < 0):
+                theta += 2*math.pi
+            newcenter = (p1[0] + m2cdist*math.cos(theta), p1[1] + m2cdist*math.sin(theta))
+
+            lengthfromcenter = newlength / innerlengthconstant
+            newpoints = []
+            if(rotSides):
+                if(sides % 2 == 0):
+                    theta += innertheta/2
+                else:
+                    theta += math.pi
+            #print(points)
+            #print(180*theta/math.pi)
+            for j in range(sides):
+                newpoints.append( (newcenter[0] + lengthfromcenter*math.cos(theta), newcenter[1] - lengthfromcenter*math.sin(theta)))
+                theta += innertheta
+            draw.polygon(newpoints, fillcolor[curdepth])
+            recurse(newpoints,theta,newlength*scalingfactor,newcenter,curdepth+1,m2cdist*scalingfactor,draw)
+
 def generateconfig(filename,m2cdist,sidelength):
     configcopy = open(filename, "w+")
     configcopy.write("canvas_size = " + str(config.canvas_size)+"\n")
@@ -115,6 +136,7 @@ def generateconfig(filename,m2cdist,sidelength):
     configcopy.write("fillcolor = " + str(fillcolor)+"\n")
     configcopy.write("bgcolor = " + str(bgcolor)+"\n")
     configcopy.write("genconfig = " + str(genconfig)+"\n")
+    configcopy.write("generateCornerPolygons = " + str(generateCornerPolygons)+"\n")
     configcopy.close()
 
 if __name__ == "__main__":
