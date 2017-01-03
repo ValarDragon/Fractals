@@ -59,6 +59,7 @@ def main(argv):
     innerlengthconstant = math.sqrt(2-2*math.cos(innertheta))
     lengthfromcenter = sidelength / innerlengthconstant
     points = polygonCorners((c,c),lengthfromcenter,theta)
+
     draw.polygon(points, fillcolor[0])
     #print("center: " + str(c))
     recurse(points,theta,sidelength*scalingfactor,(c,c),1,m2cdist,draw)
@@ -105,9 +106,11 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
             newcenter = (0,0)
             if(theta < 0):
                 theta += 2*math.pi
-            if(cornerPolygonElongSidelength == False):
+            if(cornerPolygonElongSidelength == 0):
                 newcenter = (p1[0] + m2cdist*math.cos(theta), p1[1] + m2cdist*math.sin(theta))
-            else:
+            elif(cornerPolygonElongSidelength == 1):
+                newcenter = (p1[0] + math.sqrt(2)*m2cdist*math.cos(theta), p1[1] + math.sqrt(2)*m2cdist*math.sin(theta))
+            elif(cornerPolygonElongSidelength == 2):
                 #do it this way to avoid division by zero errors
                 sinSign = 0
                 try:
@@ -150,7 +153,7 @@ def generateconfig(filename,m2cdist,sidelength):
     configcopy.write("iterations = " + str(iterations)+"\n")
     configcopy.write("midpoint2centerDistance = " + str(m2cdist)+"\n")
     configcopy.write("fillcolor = " + str(fillcolor)+"\n")
-    configcopy.write("bgcolor = " + str(bgcolor)+"\n")
+    configcopy.write("bgcolor = \"" + str(bgcolor)+"\"\n")
     configcopy.write("genconfig = " + str(genconfig)+"\n")
     configcopy.write("generateCornerPolygons = " + str(generateCornerPolygons)+"\n")
     configcopy.write("rotateCornerPolygons = " + str(rotateCornerPolygons)+"\n")

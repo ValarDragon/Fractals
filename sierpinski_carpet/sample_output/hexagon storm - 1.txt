@@ -10,4 +10,4 @@ bgcolor = black
 genconfig = True
 generateCornerPolygons = True
 rotateCornerPolygons = True
-cornerPolygonElongSidelength = True
+cornerPolygonElongSidelength = 2

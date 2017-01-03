@@ -1,7 +1,8 @@
-    canvas_size = 2500
-    sides = 5
-    sidelength = 400
-    iterations = 5
-    scalingfactor = 1/2.5
-    numonline = 1
-    rotSides = True
+canvas_size = 2500
+sides = 5
+sidelength = 400
+iterations = 5
+scalingfactor = 1/2.5
+numonline = 1
+rotSides = True
+cornerPolygonElongSidelength = 0
