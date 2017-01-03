@@ -13,14 +13,13 @@ def main(argv):
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
     global reverse,sidelets,halfsidelets,thirdtriangleside,sideletsNoDepthIncrease,drawTrianglesAtEnd
-    global saveEachIteration
+    global saveEachIteration, genconfig
     canvas_size = config.canvas_size
     scalingfactor = config.scalingfactor
     sidelength = config.sidelength
     maxdepth = config.maxdepth
     fillcolor = config.fillcolor
     reversefillcolor = config.reversefillcolor
-    outlinecolor = config.outlinecolor
     bgcolor = config.bgcolor
     reverse = config.reverse
     halfsidelets = config.halfsidelets
@@ -37,12 +36,13 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"ho:c:",["help","output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
         "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease=","drawTrianglesAtEnd=",
-        "saveEachIteration=","genconfig="])
-    except getopt.GetoptError:
+        "saveEachIteration=","genconfig=","fillcolor=","reversefillcolor="])
+    except getopt.GetoptError as e:
         print('koch_snowflake.py -o <output image name> -c <canvas size>')
-        print(' --[scalingfactor, length, depth, bgcolor, reverse,'+
-            ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease, ' +
+        print(' --[scalingfactor, length, depth, bgcolor, reverse, fillcolor'+
+            ' reversefillcolor, halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease, ' +
             'drawTrianglesAtEnd, saveEachIteration, genconfig]')
+        print(e)
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-o", "--output"):
@@ -51,8 +51,8 @@ def main(argv):
             canvas_size = int(arg)
         elif opt in ("-h", "--help"):
             print('koch_snowflake.py -o <output image name> -c <canvas size>')
-            print(' --[scalingfactor, length, depth, bgcolor, reverse,'+
-                ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease, ' +
+            print(' --[scalingfactor, length, depth, bgcolor, reverse, fillcolor,'+
+                ' reversefillcolor, halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease, ' +
                 'drawTrianglesAtEnd, saveEachIteration, genconfig]')
             return
         elif opt in ("--scalingfactor"):
@@ -63,6 +63,12 @@ def main(argv):
             maxdepth = int(arg)
         elif opt in ("--bgcolor"):
             bgcolor = arg
+        elif opt in ("--reverse"):
+            reverse = bool(arg)
+        elif opt in ("--fillcolor"):
+            fillcolor = eval(arg)
+        elif opt in ("--reversefillcolor"):
+            reversefillcolor = eval(arg)
         elif opt in ("--reverse"):
             reverse = bool(arg)
         elif opt in ("--halfsidelets"):
@@ -96,7 +102,7 @@ def main(argv):
     draw = ImageDraw.Draw(img)
     triangle = [(c-l/2,c+l/(2*math.sqrt(3)) ),(c,c-l/(math.sqrt(3)) ),(c+l/2,c+l/(2*math.sqrt(3)) )]
     #print(triangle)
-    draw.polygon(triangle, fillcolor[0],outlinecolor)
+    draw.polygon(triangle, fillcolor[0])
     recurse(triangle, l*scalingfactor,1,draw)
     if(drawTrianglesAtEnd and not (not reverse and (sidelets or halfsidelets))):
         print(str(len(trianglelist)+1) + " triangles are in this fractal!!!")
@@ -128,7 +134,7 @@ def main(argv):
 
             if(saveEachIteration):
                 img.save(imgname+"_iter_"+ str(i)+".jpg","JPEG")
-        draw.polygon(triangle, fillcolor[0],outlinecolor)
+        draw.polygon(triangle, fillcolor[0])
     img.save(imgname+".jpg","JPEG")
     if(genconfig):
         generateconfig(imgname+".txt")
@@ -267,13 +273,12 @@ def distSqrd(p1,p2):
 
 def generateconfig(filename):
     configcopy = open(filename, "w+")
-    configcopy.write("canvas_size = " + str(config.canvas_size)+"\n")
+    configcopy.write("canvas_size = " + str(canvas_size)+"\n")
     configcopy.write("scalingfactor = " + str(scalingfactor)+"\n")
     configcopy.write("sidelength = " + str(sidelength)+"\n")
     configcopy.write("maxdepth = " + str(maxdepth)+"\n")
     configcopy.write("fillcolor = " + str(fillcolor)+"\n")
     configcopy.write("reversefillcolor = " + str(reversefillcolor)+"\n")
-    configcopy.write("outlinecolor = " + str(outlinecolor)+"\n")
     configcopy.write("bgcolor = " + str(bgcolor)+"\n")
     configcopy.write("reverse = " + str(reverse)+"\n")
     configcopy.write("halfsidelets = " + str(halfsidelets)+"\n")
@@ -283,6 +288,13 @@ def generateconfig(filename):
     configcopy.write("drawTrianglesAtEnd = " + str(drawTrianglesAtEnd)+"\n")
     configcopy.write("saveEachIteration = " + str(saveEachIteration)+"\n")
     configcopy.write("genconfig = " + str(genconfig)+"\n")
+    configcopy.write(("\npython3 koch_snowflake.py -c {} --scalingfactor={} --length={}"+
+    " --depth={} --fillcolor=\"{}\" --reversefillcolor=\"{}\" --bgcolor=\'{}\'" +
+    " --reverse={} --halfsidelets={} --sidelets={} --threetriangle={} --sideletsNoDepthIncrease={}"+
+    " --drawTrianglesAtEnd={}  --saveEachIteration={}  --genconfig={} ").format(canvas_size,scalingfactor,
+    sidelength,maxdepth,fillcolor,reversefillcolor,bgcolor, reverse,halfsidelets,
+    sidelets, thirdtriangleside, sideletsNoDepthIncrease, drawTrianglesAtEnd, saveEachIteration,
+    genconfig) )
     configcopy.close()
 
 

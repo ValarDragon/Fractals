@@ -107,10 +107,15 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
             if(theta < 0):
                 theta += 2*math.pi
             if(cornerPolygonElongSidelength == 0):
+                #Same way of getting new center as before
                 newcenter = (p1[0] + m2cdist*math.cos(theta), p1[1] + m2cdist*math.sin(theta))
             elif(cornerPolygonElongSidelength == 1):
+                #elongates the distance to next center by sqrt(2)
+                #this sqrt(2) comes from that being the factor for a proper carpet when sides = 4
                 newcenter = (p1[0] + math.sqrt(2)*m2cdist*math.cos(theta), p1[1] + math.sqrt(2)*m2cdist*math.sin(theta))
             elif(cornerPolygonElongSidelength == 2):
+                #the original derpus way I did this, only designed for 4 sides.
+                # The output was kinda neat, so I left it. Feel free to minimize this elif
                 #do it this way to avoid division by zero errors
                 sinSign = 0
                 try:

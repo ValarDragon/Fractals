@@ -17,9 +17,7 @@ maxdepth = 3
 fillcolor = ["#33DDDD","#55BBCC","#66AACC","#7777BB","#8977AC","#9F66BC","#AA66AA","#CC99CC","#CCDDDD"]
 reversefillcolor = ["#DDDD33","#CCBB55","#CCAA66","#BB7766","#AC7778","#BC668F","#AA66AA","#CC99CC","#CCDDDD"]
 
-#outline color of the initial triangle. You can (sort of) see it, maybe?
-outlinecolor = "#00FFFF"
-#color of the canvas
+#color of the background
 bgcolor = "black"
 #Do you want triangles going inwards AND outwards? (True for yes, False for no.)
 reverse = True
