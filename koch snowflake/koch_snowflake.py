@@ -131,6 +131,7 @@ def recurse(sides,length,curdepth,draw):
         return
     if(length < .3):
         return
+
     #this works because its an equilateral triangle
     xcenter = (sides[0][0]+sides[1][0]+sides[2][0])/3
     ycenter = (sides[0][1]+sides[1][1]+sides[2][1])/3
@@ -146,21 +147,19 @@ def recurse(sides,length,curdepth,draw):
                 drawthisiter = False
             p2 = sides[j]
 
-            #midpoint
-            midpoint = ((p1[0] + p2[0])/2,(p1[0] + p2[1])/2)
+            #midpoints
             xmid = (p1[0] + p2[0])/2
             ymid = (p1[1] + p2[1])/2
-            #print("midpoint " + str(xmid) + " , " + str(ymid))
+
             #slope, rise over run
             m = (p2[1]-p1[1]) / (p2[0]-p1[0])
             # total side length / 2 * (length on line per unit x), since its per unit x, dx will be the total
             #change in x from midpoint. /2 is b/c midpoint
             dx = length / (2*math.sqrt(m*m + 1))
             dy = m*dx
-            newx1 = xmid - dx
-            newy1 = ymid - dy
-            newx2 = xmid + dx
-            newy2 = ymid + dy
+            newp1 = (xmid - dx, ymid - dy)
+            newp2 = (xmid + dx, ymid + dy)
+
             #sqrt 3 scales length to new perpendicular's length. negative is because its
             #perp, and therefore direction is reversed
             if(m != 0):
@@ -175,38 +174,36 @@ def recurse(sides,length,curdepth,draw):
                     dy *= -1
                 elif(ymid > ycenter and dy < 0):
                     dy *= -1
-                #print("dx is " + str(dx))
-                #print("dy is " + str(dy))
 
             else:
                 dx = 0
                 dy = length*math.sqrt(3)/2
                 if(ymid < ycenter and dy > 0):
                     dy *= -1
-            p3 = (xmid+dx,ymid+dy)
-            newsides = [(newx1,newy1),(newx2,newy2),p3]
+            newp3 = (xmid+dx,ymid+dy)
+            newsides = [newp1, newp2, newp3]
             if(halfsidelets or sidelets):
                 newsidelist.append(newsides[:-1])
             #print(str(newsides))
+
             if(drawthisiter):
                 if(not drawTrianglesAtEnd):
                     draw.polygon(newsides, fillcolor[curdepth])
                 else:
                     trianglelist.append((curdepth,fillcolor[curdepth],newsides))
-            #print("NEW RECURSE of depth " + str(curdepth+1) + "--------------------------------------------------------------------------")
+
             recurse(newsides,length*scalingfactor,curdepth+1,draw)
             if(reverse):
-                p3 = (xmid-dx,ymid-dy)
-                newsides = [(newx1,newy1),(newx2,newy2),p3]
+                newp3 = (xmid-dx,ymid-dy)
+                newsides = [newp1, newp2, newp3]
                 #print(str(newsides))
-                #draw.polygon(newsides, "#"+str(i*80).zfill(2) + str(j*40) + str(j*40),"RED")
+
                 if(drawthisiter):
                     if(not drawTrianglesAtEnd):
                         draw.polygon(newsides, reversefillcolor[curdepth])
                     else:
                         trianglelist.append((curdepth,reversefillcolor[curdepth],newsides))
 
-                #print("NEW RECURSE of depth " + str(curdepth+1) + "--------------------------------------------------------------------------")
                 recurse(newsides,length*scalingfactor,curdepth+1,draw)
     if(halfsidelets or sidelets):
         if(curdepth == maxdepth):
@@ -214,13 +211,16 @@ def recurse(sides,length,curdepth,draw):
         for i in range(len(newsidelist)):
             nside1 = newsidelist[i]
 
+            #iterate through each pair of new sides. New side refers to sides generated previously in this recurse
             for j in range(i+1,len(newsidelist)):
                 nside2 = newsidelist[j]
+
                 #p1 means nside1_point_1, p2 means nside1_point_2, p3 means nside2_point_1, p4 means nside2_point_2
-                distSqrp1p3 = ((nside1[0][0] - nside2[0][0]) ** 2 + (nside1[0][1] - nside2[0][1])**2)
-                distSqrp1p4 = ((nside1[0][0] - nside2[1][0]) ** 2 + (nside1[0][1] - nside2[1][1])**2)
-                distSqrp2p3 = ((nside1[1][0] - nside2[0][0]) ** 2 + (nside1[1][1] - nside2[0][1])**2)
-                distSqrp2p4 = ((nside1[1][0] - nside2[1][0]) ** 2 + (nside1[1][1] - nside2[1][1])**2)
+                #distance squared, because theres no reason to do the time-intense square root
+                distSqrp1p3 = distSqrd(nside1[0],nside2[0])
+                distSqrp1p4 = distSqrd(nside1[0],nside2[1])
+                distSqrp2p3 = distSqrd(nside1[1],nside2[0])
+                distSqrp2p4 = distSqrd(nside1[1],nside2[1])
                 mindist = min(distSqrp1p3,distSqrp1p4,distSqrp2p3,distSqrp2p4)
 
                 points = 0
@@ -255,6 +255,10 @@ def recurse(sides,length,curdepth,draw):
                     recurse(points,math.sqrt(mindist)*scalingfactor,curdepth,draw)
                 else:
                     recurse(points,math.sqrt(mindist)*scalingfactor,curdepth+1,draw)
+
+#distance squared, because theres no reason to do the time-intense square root
+def distSqrd(p1,p2):
+    return (  ((p2[0] - p1[0]) ** 2) + ((p2[1] - p1[1]) ** 2)  )
 
 def generateconfig(filename):
     configcopy = open(filename, "w+")
