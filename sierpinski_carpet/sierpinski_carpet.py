@@ -113,8 +113,18 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
             if(cornerPolygonElongSidelength == False):
                 newcenter = (p1[0] + m2cdist*math.cos(theta), p1[1] + m2cdist*math.sin(theta))
             else:
-                newcenter = (p1[0] + m2cdist*(abs(math.cos(theta))/math.cos(theta)),
-                    p1[1] + m2cdist*(abs(math.sin(theta))/math.sin(theta)))
+                #do it this way to avoid division by zero errors
+                sinSign = 0
+                try:
+                    sinSign = abs(math.sin(theta)) / math.sin(theta)
+                except Exception:
+                    pass
+                cosSign = 0
+                try:
+                    cosSign = abs(math.cos(theta)) / math.cos(theta)
+                except Exception:
+                    pass
+                newcenter = (p1[0] + m2cdist*cosSign, p1[1] + m2cdist*sinSign)
 
             lengthfromcenter = newlength / innerlengthconstant
             newpoints = []
