@@ -5,25 +5,28 @@ import numpy
 import sys, getopt
 from time import gmtime, strftime
 import math
+import config
 
 def main(argv):
 
     global sides,fillcolor,iterations,scalingfactor,numonline,innertheta,canvas_size,innerlengthconstant
     global rotSides
-    canvas_size = 2500
-    sides = 5
-    sidelength = 400
-    iterations = 5
-    scalingfactor = 1/3
+    canvas_size = config.canvas_size
+    sides = config.number_of_sides
+    sidelength = config.sidelength
+    iterations = config.iterations
+    scalingfactor = config.scalingfactor
     numonline = 1
-    rotSides = True
+    rotSides = config.rotSides
 
     #Not global, intentional.
-    m2cdist = 400
+    m2cdist = config.midpoint2centerDistance
 
     imgname = ""
-    bgcolor = "black"
-    fillcolor = ["#33DDDD","#55BBCC","#66AACC","#7788BB","#8977AC","#9F66BC","#AA66AA","#CC99CC","#CCDDDD"]
+    bgcolor = config.bgcolor
+    fillcolor = config.fillcolor
+    genconfig = config.genconfig
+
     try:
         opts, args = getopt.getopt(argv,"s:o:c:",["sides=","output=","canvas="])
     except getopt.GetoptError:
@@ -37,7 +40,7 @@ def main(argv):
         elif opt in ("-s", "--sides"):
             sides = int(arg)
 
-    imgname = "carpet_" + str(sides) + "_" + strftime("%m-%d_%H:%M", gmtime())+".jpg"
+    imgname = "output/carpet_" + str(sides) + "_" + strftime("%m-%d_%H:%M", gmtime())
 
     img = Image.new("RGBA",(canvas_size,canvas_size),bgcolor)
     c = canvas_size/2 #center
@@ -63,7 +66,7 @@ def main(argv):
 
     if("/" not in imgname):
         imgname = "output/"+imgname
-    img.save(imgname,"JPEG")
+    img.save(imgname+".jpg","JPEG")
 
 def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
     if(curdepth > iterations):
