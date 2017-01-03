@@ -10,7 +10,7 @@ import config
 def main(argv):
 
     global sides,fillcolor,iterations,scalingfactor,numonline,innertheta,canvas_size,innerlengthconstant
-    global rotSides,bgcolor,genconfig,generateCornerPolygons
+    global rotSides,bgcolor,genconfig,generateCornerPolygons,rotateCornerPolygons
     canvas_size = config.canvas_size
     sides = config.number_of_sides
     sidelength = config.sidelength
@@ -19,6 +19,8 @@ def main(argv):
     numonline = 1
     rotSides = config.rotSides
     generateCornerPolygons = config.generateCornerPolygons
+    rotateCornerPolygons = config.rotateCornerPolygons
+
     #Not global, intentional.
     m2cdist = config.midpoint2centerDistance
 
@@ -111,7 +113,7 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
 
             lengthfromcenter = newlength / innerlengthconstant
             newpoints = []
-            if(rotSides):
+            if(rotSides and not rotateCornerPolygons):
                 if(sides % 2 == 0):
                     theta += innertheta/2
                 else:

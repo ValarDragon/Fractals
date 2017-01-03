@@ -8,12 +8,15 @@ rotSides = True
 #The factor by which each sucessive polygon, and distance from midpoint to next center scales by.
 scalingfactor = 1/3
 #The length of each side of the initial polygon
-sidelength = 600
+sidelength = 400
 #The number of iterations
-iterations = 5
+iterations = 4
 #Distance between midpoint of each side of polygon, and center of next polygon. Scales by scaling factor.
-midpoint2centerDistance = 300
-generateCornerPolygons = False
+midpoint2centerDistance = 400
+
+generateCornerPolygons = True
+rotateCornerPolygons = True
+cornerPolygonElongSidelength = True
 
 #the color each depth of polygon should have. Its an array so feel free to add /remove elements.
 # It takes all valid python colors, so you can add transparencies if you are feeling fancy.
