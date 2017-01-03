@@ -10,7 +10,7 @@ import config
 def main(argv):
 
     global sides,fillcolor,iterations,scalingfactor,numonline,innertheta,canvas_size,innerlengthconstant
-    global rotSides
+    global rotSides,bgcolor,genconfig
     canvas_size = config.canvas_size
     sides = config.number_of_sides
     sidelength = config.sidelength
@@ -67,6 +67,8 @@ def main(argv):
     if("/" not in imgname):
         imgname = "output/"+imgname
     img.save(imgname+".jpg","JPEG")
+    if(genconfig):
+        generateconfig(imgname+".txt",m2cdist,sidelength)
 
 def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
     if(curdepth > iterations):
@@ -100,6 +102,20 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
             theta += innertheta
         draw.polygon(newpoints, fillcolor[curdepth])
         recurse(newpoints,theta,newlength*scalingfactor,newcenter,curdepth+1,m2cdist*scalingfactor,draw)
+
+def generateconfig(filename,m2cdist,sidelength):
+    configcopy = open(filename, "w+")
+    configcopy.write("canvas_size = " + str(config.canvas_size)+"\n")
+    configcopy.write("number_of_sides = " + str(sides)+"\n")
+    configcopy.write("rotSides = " + str(rotSides)+"\n")
+    configcopy.write("scalingfactor = " + str(scalingfactor)+"\n")
+    configcopy.write("sidelength = " + str(sidelength)+"\n")
+    configcopy.write("iterations = " + str(iterations)+"\n")
+    configcopy.write("midpoint2centerDistance = " + str(m2cdist)+"\n")
+    configcopy.write("fillcolor = " + str(fillcolor)+"\n")
+    configcopy.write("bgcolor = " + str(bgcolor)+"\n")
+    configcopy.write("genconfig = " + str(genconfig)+"\n")
+    configcopy.close()
 
 if __name__ == "__main__":
    main(sys.argv[1:])

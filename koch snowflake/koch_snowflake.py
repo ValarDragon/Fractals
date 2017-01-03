@@ -279,6 +279,7 @@ def generateconfig(filename):
     configcopy.write("sideletsNoDepthIncrease = " + str(sideletsNoDepthIncrease)+"\n")
     configcopy.write("drawTrianglesAtEnd = " + str(drawTrianglesAtEnd)+"\n")
     configcopy.write("saveEachIteration = " + str(saveEachIteration)+"\n")
+    configcopy.write("genconfig = " + str(genconfig)+"\n")
     configcopy.close()
 
 
