@@ -237,12 +237,8 @@ def recurse(sides,length,curdepth,draw):
                 #to a single point in points
                 dists = [0,0,0]
                 for h in range(3):
-                    dists[h] = (sides[h][0] - points[0][0]) ** 2 + (sides[h][1] - points[0][1]) ** 2
-                #print("depth " + str(curdepth))
-                #print("orig. sides " + str(sides))
-                #print("new side list " + str(newsidelist))
-                #print("closest points in new sides " + str(points))
-                #print("dists " + str(dists))
+                    dists[h] = distSqrd(sides[h], points[0])
+
                 mindist = min(dists)
                 for h in range(3):
                     if(mindist == dists[h]):
