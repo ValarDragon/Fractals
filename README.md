@@ -6,4 +6,4 @@ Currently there are two fractal types, see sample outputs in each for some thing
 A fully customizable Koch Snowflake
 
 ## Sierpinski Carpet
-A modified version of Sierpinski's Carpet. It has been generalized to all regular polygons, but does not yet support the corners yet. (For other polygons, it will be generated from center to corner + dist)
+A fully customizable Sierpinski's Carpet, it has been generalized to all regular polygons.
