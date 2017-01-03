@@ -36,11 +36,13 @@ def main(argv):
         trianglelist = []
     try:
         opts, args = getopt.getopt(argv,"ho:c:",["help","output=","canvas=","scalingfactor=","length=", "depth=","bgcolor=",
-        "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease="])
+        "reverse=","halfsidelets=","sidelets=","threetriangle=","sideletsNoDepthIncrease=","drawTrianglesAtEnd=",
+        "saveEachIteration=","genconfig="])
     except getopt.GetoptError:
         print('koch_snowflake.py -o <output image name> -c <canvas size>')
         print(' --[scalingfactor, length, depth, bgcolor, reverse,'+
-            ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease]')
+            ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease, ' +
+            'drawTrianglesAtEnd, saveEachIteration, genconfig]')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-o", "--output"):
@@ -50,7 +52,8 @@ def main(argv):
         elif opt in ("-h", "--help"):
             print('koch_snowflake.py -o <output image name> -c <canvas size>')
             print(' --[scalingfactor, length, depth, bgcolor, reverse,'+
-                ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease]')
+                ' halfsidelets, sidelets, threetriangle, sideletsNoDepthIncrease, ' +
+                'drawTrianglesAtEnd, saveEachIteration, genconfig]')
             return
         elif opt in ("--scalingfactor"):
             scalingfactor = float(arg)
@@ -70,6 +73,12 @@ def main(argv):
             thirdtriangleside = bool(arg)
         elif opt in ("--sideletsNoDepthIncrease"):
             sideletsNoDepthIncrease = bool(arg)
+        elif opt in ("--drawTrianglesAtEnd"):
+            drawTrianglesAtEnd = bool(arg)
+        elif opt in ("--saveEachIteration"):
+            saveEachIteration = bool(arg)
+        elif opt in ("--genconfig"):
+            genconfig = bool(arg)
 
     if("/" not in imgname):
         imgname = "output/"+imgname

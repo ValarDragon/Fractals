@@ -15,8 +15,11 @@ iterations = 4
 midpoint2centerDistance = 400
 
 generateCornerPolygons = True
-rotateCornerPolygons = True
-cornerPolygonElongSidelength = True
+#Adjust this one! False makes it the normal orientation, where the furthest point is on the
+#perpendicular to the originating polygon side
+rotateCornerPolygons = False
+#This only actually makes any sense for sides = 4, it makes the real sierpinski carpet
+cornerPolygonElongSidelength = False
 
 #the color each depth of polygon should have. Its an array so feel free to add /remove elements.
 # It takes all valid python colors, so you can add transparencies if you are feeling fancy.

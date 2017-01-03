@@ -10,7 +10,7 @@ import config
 def main(argv):
 
     global sides,fillcolor,iterations,scalingfactor,numonline,innertheta,canvas_size,innerlengthconstant
-    global rotSides,bgcolor,genconfig,generateCornerPolygons,rotateCornerPolygons
+    global rotSides,bgcolor,genconfig,generateCornerPolygons,rotateCornerPolygons,cornerPolygonElongSidelength
     canvas_size = config.canvas_size
     sides = config.number_of_sides
     sidelength = config.sidelength
@@ -20,7 +20,7 @@ def main(argv):
     rotSides = config.rotSides
     generateCornerPolygons = config.generateCornerPolygons
     rotateCornerPolygons = config.rotateCornerPolygons
-
+    cornerPolygonElongSidelength = config.cornerPolygonElongSidelength
     #Not global, intentional.
     m2cdist = config.midpoint2centerDistance
 
@@ -107,9 +107,14 @@ def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
 
         if(generateCornerPolygons == True):
             theta = math.atan2(p1[1]-center[1],p1[0]-center[0])
+            newcenter = (0,0)
             if(theta < 0):
                 theta += 2*math.pi
-            newcenter = (p1[0] + m2cdist*math.cos(theta), p1[1] + m2cdist*math.sin(theta))
+            if(cornerPolygonElongSidelength == False):
+                newcenter = (p1[0] + m2cdist*math.cos(theta), p1[1] + m2cdist*math.sin(theta))
+            else:
+                newcenter = (p1[0] + m2cdist*(abs(math.cos(theta))/math.cos(theta)),
+                    p1[1] + m2cdist*(abs(math.sin(theta))/math.sin(theta)))
 
             lengthfromcenter = newlength / innerlengthconstant
             newpoints = []
@@ -139,6 +144,8 @@ def generateconfig(filename,m2cdist,sidelength):
     configcopy.write("bgcolor = " + str(bgcolor)+"\n")
     configcopy.write("genconfig = " + str(genconfig)+"\n")
     configcopy.write("generateCornerPolygons = " + str(generateCornerPolygons)+"\n")
+    configcopy.write("rotateCornerPolygons = " + str(rotateCornerPolygons)+"\n")
+    configcopy.write("cornerPolygonElongSidelength = " + str(cornerPolygonElongSidelength)+"\n")
     configcopy.close()
 
 if __name__ == "__main__":
