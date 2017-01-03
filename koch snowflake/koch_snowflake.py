@@ -113,10 +113,10 @@ def main(argv):
                     del trianglelist[j]
 
             if(saveEachIteration):
-                img.save("output/snowflake/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
+                img.save("output/snowflake_"+strftime("%m-%d_%H:%M", gmtime())+"_iter_"+ str(i)+".jpg","JPEG")
         draw.polygon(triangle, fillcolor[0],outlinecolor)
     if("/" not in imgname):
-        imgname = "output/snowflake/"+imgname
+        imgname = "output/"+imgname
     img.save(imgname,"JPEG")
 
 def recurse(sides,length,curdepth,draw):

@@ -4,8 +4,8 @@
 **.pyo
 **.pyd
 **.log
-# output/
+output/
 archives/
 __pycache__/
 **/__pycache__
-# config.py
+config.py

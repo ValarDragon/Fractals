@@ -62,7 +62,7 @@ def main(argv):
     recurse(points,theta,sidelength*scalingfactor,(c,c),1,m2cdist,draw)
 
     if("/" not in imgname):
-        imgname = "output/carpet/"+imgname
+        imgname = "output/"+imgname
     img.save(imgname,"JPEG")
 
 def recurse(points,theta0point,newlength,center,curdepth,m2cdist,draw):
