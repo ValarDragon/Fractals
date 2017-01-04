@@ -6,8 +6,10 @@ sidelength = 400
 iterations = 4
 midpoint2centerDistance = 400
 fillcolor = ['#33DDDD', '#55BBCC', '#66AACC', '#7777BB', '#8977AC', '#9F66BC', '#AA66AA', '#CC99CC', '#CCDDDD']
-bgcolor = black
+bgcolor = "black"
 genconfig = True
 generateCornerPolygons = True
 rotateCornerPolygons = True
 cornerPolygonElongSidelength = 1
+
+python3 sierpinski_carpet.py -c 2000 --sides=4 --rotSides=True --scalingfactor=0.3333333333333333 --sidelength=400 --iterations=4 --m2cdist=400 --fillcolor="['#33DDDD', '#55BBCC', '#66AACC', '#7777BB', '#8977AC', '#9F66BC', '#AA66AA', '#CC99CC', '#CCDDDD']" --bgcolor='black' --generateCornerPolygons=True --rotateCornerPolygons=True --cornerPolygonElongSidelength=1 --genconfig=True

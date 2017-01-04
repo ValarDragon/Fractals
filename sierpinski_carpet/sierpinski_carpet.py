@@ -30,9 +30,14 @@ def main(argv):
     genconfig = config.genconfig
 
     try:
-        opts, args = getopt.getopt(argv,"s:o:c:",["sides=","output=","canvas="])
-    except getopt.GetoptError:
+        opts, args = getopt.getopt(argv,"s:o:c:",["sides=","output=","canvas_size=","sidelength=",
+        "iterations=","scalingfactor=","rotSides=","generateCornerPolygons=","cornerPolygonElongSidelength=",
+        "rotateCornerPolygons=","m2cdist=","bgcolor=","fillcolor=","genconfig="])
+    except getopt.GetoptError as e:
         print('sierpinski_carpet.py -o <output image name> -c <canvas size in pixels>')
+        print(' --[sides, sidelength, iterations, scalingfactor, rotSides, generateCornerPolygons, '+
+        'cornerPolygonElongSidelength, m2cdist, bgcolor, fillcolor, genconfig]')
+        print(e)
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-o", "--output"):
@@ -41,6 +46,28 @@ def main(argv):
             canvas_size = int(arg)
         elif opt in ("-s", "--sides"):
             sides = int(arg)
+        elif opt in ("--sidelength"):
+            sidelength = int(arg)
+        elif opt in ("--iterations"):
+            iterations = int(arg)
+        elif opt in ("--scalingfactor"):
+            scalingfactor = float(arg)
+        elif opt in ("--rotSides"):
+            rotSides = bool(arg)
+        elif opt in ("--generateCornerPolygons"):
+            generateCornerPolygons = bool(arg)
+        elif opt in ("--rotateCornerPolygons"):
+            rotateCornerPolygons = bool(arg)
+        elif opt in ("--cornerPolygonElongSidelength"):
+            cornerPolygonElongSidelength = int(arg)
+        elif opt in ("--m2cdist"):
+            m2cdist = int(arg)
+        elif opt in ("--bgcolor"):
+            bgcolor = arg
+        elif opt in ("--fillcolor"):
+            fillcolor = eval(arg)
+        elif opt in ("--genconfig"):
+            genconfig = bool(arg)
 
     imgname = "output/carpet_" + str(sides) + "_" + strftime("%m-%d_%H:%M", gmtime())
 
@@ -150,7 +177,7 @@ def polygonCorners(center, lengthfromcenter, theta0):
 
 def generateconfig(filename,m2cdist,sidelength):
     configcopy = open(filename, "w+")
-    configcopy.write("canvas_size = " + str(config.canvas_size)+"\n")
+    configcopy.write("canvas_size = " + str(canvas_size)+"\n")
     configcopy.write("number_of_sides = " + str(sides)+"\n")
     configcopy.write("rotSides = " + str(rotSides)+"\n")
     configcopy.write("scalingfactor = " + str(scalingfactor)+"\n")
@@ -163,6 +190,14 @@ def generateconfig(filename,m2cdist,sidelength):
     configcopy.write("generateCornerPolygons = " + str(generateCornerPolygons)+"\n")
     configcopy.write("rotateCornerPolygons = " + str(rotateCornerPolygons)+"\n")
     configcopy.write("cornerPolygonElongSidelength = " + str(cornerPolygonElongSidelength)+"\n")
+
+    configcopy.write(("\npython3 sierpinski_carpet.py -c {} --sides={} --rotSides={}"+
+    " --scalingfactor={} --sidelength={} --iterations={} --m2cdist={} --fillcolor=\"{}\" --bgcolor=\'{}\'" +
+    " --generateCornerPolygons={} --rotateCornerPolygons={} --cornerPolygonElongSidelength={}"+
+    " --genconfig={} ").format(canvas_size,sides,rotSides,
+    scalingfactor,sidelength,iterations,m2cdist,fillcolor,bgcolor,generateCornerPolygons,
+    rotateCornerPolygons, cornerPolygonElongSidelength,genconfig) )
+
     configcopy.close()
 
 if __name__ == "__main__":

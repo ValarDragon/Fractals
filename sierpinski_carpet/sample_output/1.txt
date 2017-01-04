@@ -1,8 +1,15 @@
 canvas_size = 2500
-sides = 5
+number_of_sides = 5
+rotSides = True
+scalingfactor = 0.4
 sidelength = 400
 iterations = 5
-scalingfactor = 1/2.5
-numonline = 1
-rotSides = True
+midpoint2centerDistance = 500
+fillcolor = ['#33DDDD', '#55BBCC', '#66AACC', '#7777BB', '#8977AC', '#9F66BC', '#AA66AA', '#CC99CC', '#CCDDDD']
+bgcolor = "black"
+genconfig = True
+generateCornerPolygons = False
+rotateCornerPolygons = False
 cornerPolygonElongSidelength = 0
+
+python3 sierpinski_carpet.py -c 2500 --sides=5 --rotSides=True --scalingfactor=0.4 --sidelength=400 --iterations=5 --m2cdist=500 --fillcolor="['#33DDDD', '#55BBCC', '#66AACC', '#7777BB', '#8977AC', '#9F66BC', '#AA66AA', '#CC99CC', '#CCDDDD']" --bgcolor='black' --generateCornerPolygons=False --rotateCornerPolygons=False --cornerPolygonElongSidelength=0 --genconfig=True 
