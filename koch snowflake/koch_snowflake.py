@@ -9,7 +9,7 @@ import config
 
 def main(argv):
 
-    imgname = "output/snowflake_" + strftime("%m-%d_%H:%M", gmtime())
+    imgname = "output/snowflake_" + strftime("%m-%d_%H_%M", gmtime())
 
     global canvas_size,scalingfactor,sidelength,maxdepth,reversefillcolor,fillcolor,outlinecolor,bgcolor
     global reverse,sidelets,halfsidelets,thirdtriangleside,sideletsNoDepthIncrease,drawTrianglesAtEnd

@@ -69,7 +69,7 @@ def main(argv):
         elif opt in ("--genconfig"):
             genconfig = bool(arg)
 
-    imgname = "output/carpet_" + str(sides) + "_" + strftime("%m-%d_%H:%M", gmtime())
+    imgname = "output/carpet_" + str(sides) + "_" + strftime("%m-%d_%H_%M", gmtime())
 
     img = Image.new("RGBA",(canvas_size,canvas_size),bgcolor)
     c = canvas_size/2 #center

@@ -5,7 +5,7 @@ canvas_size = 1500
 #then you should make sure your reversefillcolor and regular fillcolor are the same, otherwhise it will look super weird
 #as there will be asymettric overlaps because of the order they are drawn at each level. Same color for each level
 #between fill and reverse fill will fix this.
-scalingfactor = 1/3
+scalingfactor = 1.0/3.0
 #The length of each side of the initial triangle
 sidelength = 900
 #The number of iterations

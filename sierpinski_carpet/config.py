@@ -6,7 +6,7 @@ number_of_sides = 3
 #orient sides so that flat side is parallel to offshooting side. Change this setting!!!
 rotSides = True
 #The factor by which each sucessive polygon, and distance from midpoint to next center scales by.
-scalingfactor = 1/3
+scalingfactor = 1.0/3.0
 #The length of each side of the initial polygon
 sidelength = 400
 #The number of iterations
@@ -18,8 +18,8 @@ generateCornerPolygons = True
 #Adjust this one! False makes it the normal orientation, where the furthest point is on the
 #perpendicular to the originating polygon side
 rotateCornerPolygons = False
-#This has three settings, 0, 1, 2. 0 is normal, 1 is elongated, 2 is the derpus old elongated method
-# setting 1 looks cool
+#This has three settings, 0, 1, 2. 0 is normal, 1 is elongated, 2 is the derpus old elongated method which only works normally
+#for 4 sides. For even sides it generates things like hexagon storm sample output. NOTE Setting 1 looks cool!!!
 cornerPolygonElongSidelength = 0
 
 #the color each depth of polygon should have. Its an array so feel free to add /remove elements.
